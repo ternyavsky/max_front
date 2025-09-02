@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@config "../tailwind.config.ts";
+
+@font-face {
+  font-family: "VK Sans Display";
+  src: url("./fonts/VKSansDisplay-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "VK Sans Display";
+  src: url("./fonts/vk-sans-display-medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-gray-primary: #c3c3c3;
+  --color-bg-frame: #fafcff;
+  --color-sign-primary: #272727;
+  --color-step: #0026ff;
+  --color-btn-outline-text: #1a1d85;
+  --color-tabs-inactive: #7c8a9a;
+}
+
+@layer base {
+  .text-gradient {
+    @apply bg-gradient-to-r from-[#43D6FF] to-[#8F3FFF] text-transparent bg-clip-text;
+  }
+  .btn-gradient {
+    @apply bg-gradient-to-r from-[#1D29BF] to-[#2D085F];
+  }
+  .font-normal {
+    font-weight: 400 !important;
+  }
+  .font-medium {
+    font-weight: 500 !important;
+  }
+
+  /* Фиксированный фон для предотвращения "плывущего" эффекта */
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  html,
+  body,
+  #app {
+    height: 100%;
+    width: 100%;
+  }
+}
