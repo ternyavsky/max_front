@@ -1,45 +1,48 @@
 <template>
   <DefaultLayout>
     <!-- Экран формы -->
-    <img
-      class="absolute top-[-220px] left-[464px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
-      src="/assets/ad-right-bg.svg"
-      alt="shape-1"
-    />
-    <img
-      class="fixed top-[403px] left-[-169px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
-      src="/assets/ad-left-bg.png"
-      alt="shape-1"
-    />
-    <AdForm
-      v-if="currentScreen === 'form'"
-      :selectedTab="selectedTab"
-      :selectedTemplate="selectedTemplate"
-      :frameObjects="frameObjects"
-      @formSubmitted="handleFormSubmitted"
-      @updateSelectedTab="selectedTab = $event"
-      @updateSelectedTemplate="selectedTemplate = $event"
-      @updateFrameObjects="
-        (value) => {
-          console.log('CreateAd received frameObjects update:', value);
-          frameObjects = value;
-        }
-      "
-    />
+    <div class="max-w-[1440px] mx-auto">
+      <img
+        class="absolute top-[-220px] left-[464px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
+        src="/assets/ad-right-bg.svg"
+        alt="shape-1"
+      />
+      <img
+        class="fixed top-[403px] left-[-169px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
+        src="/assets/ad-left-bg.png"
+        alt="shape-1"
+      />
+      <AdForm
+        v-if="currentScreen === 'form'"
+        :selectedTab="selectedTab"
+        :selectedTemplate="selectedTemplate"
+        :frameObjects="frameObjects"
+        @formSubmitted="handleFormSubmitted"
+        @formError="handleFormError"
+        @updateSelectedTab="selectedTab = $event"
+        @updateSelectedTemplate="selectedTemplate = $event"
+        @updateFrameObjects="
+          (value) => {
+            console.log('CreateAd received frameObjects update:', value);
+            frameObjects = value;
+          }
+        "
+      />
 
-    <!-- Экран результата -->
-    <AdResult
-      v-if="currentScreen === 'result'"
-      :selectedTab="selectedTab"
-      :selectedTemplate="selectedTemplate"
-      :frameObjects="frameObjects"
-      :resData="resData"
-      @goBack="goBackToForm"
-    />
+      <!-- Экран результата -->
+      <AdResult
+        v-if="currentScreen === 'result'"
+        :selectedTab="selectedTab"
+        :selectedTemplate="selectedTemplate"
+        :frameObjects="frameObjects"
+        :resData="resData"
+        @goBack="goBackToForm"
+      />
 
-    <!-- Модалки -->
-    <SuccessModal :isOpen="isSuccessModalOpen" @close="closeModal" />
-    <FailedModal :isOpen="isFailedModalOpen" @close="closeModal" />
+      <!-- Модалки -->
+      <SuccessModal :isOpen="isSuccessModalOpen" @close="closeModal" />
+      <FailedModal :isOpen="isFailedModalOpen" @close="closeModal" />
+    </div>
   </DefaultLayout>
 </template>
 
@@ -54,8 +57,13 @@ import { useAdForm } from "@/composables/useAdForm";
 import { usePdfGeneration } from "@/composables/usePdfGeneration";
 
 // Используем composables
-const { selectedTab, selectedTemplate, frameObjects, clearAllErrors } =
-  useAdForm();
+const {
+  selectedTab,
+  selectedTemplate,
+  frameObjects,
+  clearAllErrors,
+  isFailedModalOpen,
+} = useAdForm();
 
 const { resData } = usePdfGeneration();
 
@@ -63,8 +71,7 @@ const { resData } = usePdfGeneration();
 const currentScreen = ref<"form" | "result">("form");
 
 // Состояние модалки
-const isSuccessModalOpen = ref(false);
-const isFailedModalOpen = ref(false);
+const isSuccessModalOpen = ref(true);
 
 // Функция для возврата к форме
 const goBackToForm = () => {
@@ -88,5 +95,11 @@ const handleFormSubmitted = (data: any) => {
   resData.value.idLink = data.idLink;
   currentScreen.value = "result";
   isSuccessModalOpen.value = true;
+};
+
+// Обработчик ошибки формы
+const handleFormError = (error: any) => {
+  console.error("Ошибка формы:", error);
+  isFailedModalOpen.value = true;
 };
 </script>

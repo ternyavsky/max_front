@@ -33,7 +33,7 @@
     @apply bg-gradient-to-r from-[#43D6FF] to-[#8F3FFF] text-transparent bg-clip-text;
   }
   .btn-gradient {
-    @apply bg-gradient-to-r from-[#1D29BF] to-[#2D085F];
+    @apply bg-gradient-to-r from-[#1d29bf] to-[#2d085f];
   }
   .close-btn-gradient {
     @apply bg-gradient-to-r from-[#161F8A] to-[#2D085F];

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted } from "vue";
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const props = defineProps<{
   options: string[] | { name: string; label: string }[];
   modelValue: string;
@@ -94,6 +98,7 @@ onUnmounted(() => {
         @input="isOpen = true"
         :placeholder="placeholder || 'Выберите...'"
         class="w-full px-4 py-3 pr-10 focus:outline-none cursor-text"
+        v-bind="$attrs"
       />
       <div
         class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"

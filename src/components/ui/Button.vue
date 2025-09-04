@@ -31,7 +31,13 @@ const buttonClasses = computed(() => {
 </script>
 
 <template>
-  <button :class="buttonClasses" @click="$emit('click', $event)">
+  <button :class="[buttonClasses]" @click="$emit('click', $event)">
     <slot />
   </button>
 </template>
+
+<style scoped>
+.btn-gradient {
+  background: linear-gradient(151.43deg, #1d29bf 0%, #2d085f 207.74%);
+}
+</style>

@@ -10,12 +10,12 @@
 
       <!-- Индивидуальный макет -->
       <div
-        class="bg-[url('/assets/editable-frame.png')] bg-cover rounded-[18px] flex flex-col px-[42px] pt-[72px] pb-[40px] justify-between w-[947px] h-[655px] mx-auto mobile:w-full mobile:h-[250px] mobile:px-[20px] mobile:pt-[20px] mobile:pb-[10px]"
+        class="bg-[url('/assets/editable-frame.png')] bg-cover mobile:bg-contain mobile:bg-no-repeat mobile:bg-center rounded-[18px] flex flex-col px-[42px] pt-[72px] pb-[40px] justify-between w-[947px] h-[655px] mx-auto mobile:h-[250px] mobile:px-[20px] mobile:pt-[20px] mobile:pb-[10px] relative mobile:w-[280px]"
         v-if="props.selectedTab === 1"
         id="pdf-block"
       >
         <h4
-          class="text-[57px] font-bold max-w-[430px] text-white leading-[115%] flex flex-col mobile:text-[20px] mobile:max-w-[205px]"
+          class="text-[57px] font-bold max-w-[430px] text-white leading-[115%] flex flex-col mobile:text-[15px] mobile:max-w-[135px] mobile:mt-[32px]"
         >
           <span
             v-if="splitText.firstLine"
@@ -39,32 +39,26 @@
           <img
             :src="resData.pathImg || '/assets/preview.svg'"
             crossorigin="anonymous"
-            alt="Предпросмотр QR-кода"
-            width="120"
-            class="rounded mobile:w-[35px] mobile:h-[35px]"
+            alt="qr-code"
+            width="155"
+            height="155"
+            class="absolute bottom-[61px] left-[42px] rounded-[8px] mobile:bottom-[45px] mobile:left-[12px] mobile:w-[45px] mobile:h-[45px] z-10"
             @error="handleImageError"
           />
-          <div class="flex flex-col justify-center leading-none">
-            <p
-              class="text-white max-w-[200px] text-[20px] mt-2 mobile:text-[11px] mobile:max-w-[40px] mobile:-mt-1"
-            >
-              скачайте тут
-            </p>
-          </div>
         </div>
       </div>
 
       <!-- Готовые шаблоны -->
       <div
         v-if="props.selectedTab !== 1"
-        class="bg-cover rounded-[18px] flex flex-col px-[42px] pt-[72px] pb-[40px] justify-between w-[947px] h-[655px] mx-auto relative mobile:w-full mobile:h-[250px]"
+        class="bg-no-repeat bg-center bg-cover mobile:bg-contain rounded-[18px] px-[42px] pt-[72px] pb-[40px] w-[947px] h-[655px] mx-auto relative mobile:h-[250px] mobile:w-[280px]"
         :style="{ backgroundImage: `url(${props.selectedTemplate.img})` }"
         id="pdf-block"
       >
         <img
           :src="resData.pathImg || '/assets/preview.svg'"
           alt="qr-code"
-          class="absolute bottom-[51px] left-[42px] rounded-[12px] mobile:bottom-[22px] mobile:left-[12px] mobile:w-[65px] mobile:h-[65px]"
+          class="absolute bottom-[61px] left-[42px] rounded-[8px] mobile:bottom-[45px] mobile:left-[12px] mobile:w-[45px] mobile:h-[45px] z-10"
           width="155"
           height="155"
         />

@@ -11,7 +11,7 @@ const goToCreateAd = () => {
 </script>
 <template>
   <DefaultLayout>
-    <div class="flex mt-[68px] mobile:mt-[40px]">
+    <div class="flex mt-[68px] mobile:mt-[40px] max-w-[1440px] mx-auto">
       <img
         class="fixed top-[-158px] left-[472px] z-[-1] mobile:hidden"
         src="/assets/main-right-bg.png"
@@ -57,11 +57,7 @@ const goToCreateAd = () => {
           >Создать объявление</Button
         >
       </div>
-      <img
-        src="/assets/main-image.svg"
-        alt="main"
-        class="mobile:hidden z-10"
-      />
+      <img src="/assets/main-image.svg" alt="main" class="mobile:hidden z-10" />
     </div>
   </DefaultLayout>
 </template>

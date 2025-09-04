@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 
-const router = useRouter();
-
 const route = useRoute();
+
 const goToMain = () => {
-  router.push("/");
+  window.open("https://max.ru/", "_blank");
 };
 </script>
 <template>
@@ -18,20 +16,21 @@ const goToMain = () => {
     }"
   >
     <img
-      src="/assets/Max.png"
+      src="/assets/Max.svg"
       alt="logo"
       @click="goToMain"
       class="cursor-pointer mobile:w-[80px] my-auto"
     />
     <div
       v-if="route.path === '/'"
+      @click="goToMain"
       class="rounded-[14px] max-w-fit w-full px-[15px] py-[10px] border-1 border-white/30 desktop:hidden"
     >
       <h4 class="text-white text-[16px] font-medium">Скачать Max</h4>
     </div>
     <h4
       v-if="route.path === '/create-ad'"
-      class="text-white text-[40px] font-medium mobile:text-[30px]"
+      class="text-white text-[40px] font-medium mobile:text-[29px]"
     >
       Создание объявления
     </h4>

@@ -8,8 +8,8 @@ export default {
       },
 
       screens: {
-        mobile: { max: "400px" },
-        desktop: { min: "401px" },
+        mobile: { max: "1399px" },
+        desktop: { min: "1400px" },
       },
       colors: {
         primary: {

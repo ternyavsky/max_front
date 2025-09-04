@@ -27,7 +27,7 @@
         >
           <div
             v-if="isOpen"
-            class="relative bg-white rounded-2xl p-8 max-w-[836px] w-full mx-4 shadow-2xl border border-blue-200 max-h-[276px] h-full mobile:max-w-[90%] mobile:max-h-[calc(100vh-140px)] mobile:p-6"
+            class="relative bg-white rounded-2xl p-8 max-w-[900px] w-full mx-4 shadow-2xl border border-blue-200 max-h-[350px] h-fit mobile:max-w-[90%] mobile:max-h-[calc(100vh-140px)] mobile:p-6"
             @click.stop
           >
             <!-- Кнопка закрытия -->
@@ -57,7 +57,7 @@
               <img
                 src="/assets/success-teddy.svg"
                 alt="success"
-                class="w-[208px] mobile:w-[120px]"
+                class="w-[280px] mobile:w-[150px]"
               />
 
               <div
@@ -66,13 +66,13 @@
                 <img
                   src="/assets/success.svg"
                   alt="success"
-                  class="w-fit h-fit absolute left-48 top-[-5px] mobile:relative mobile:left-0 mobile:top-0"
+                  class="w-16 h-16 absolute left-64 top-2 mobile:relative mobile:left-0 mobile:top-0 mobile:w-12 mobile:h-12"
                 />
                 <div
-                  class="flex flex-col justify-between h-full mobile:items-center mobile:gap-4"
+                  class="flex flex-col justify-between desktop:h-[250px] mobile:items-center mobile:gap-4"
                 >
                   <p
-                    class="font-medium text-[32px] text-sign-primary max-w-[400px] leading-[100%] mobile:text-[20px] mobile:text-center"
+                    class="font-medium text-[36px] text-sign-primary max-w-[450px] leading-[100%] mobile:text-[22px] mobile:text-center desktop:mt-5 desktop:ml-2"
                   >
                     Ваше объявление успешно загружено!
                   </p>

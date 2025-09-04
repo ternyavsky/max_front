@@ -45,6 +45,10 @@ export function usePdfGeneration() {
 
       let originalStyles: string[] = [];
       let gradientTexts: Element[] = [];
+      let qrCode: HTMLElement | null = null;
+      let titleElement: HTMLElement | null = null;
+      let originalQrStyle = "";
+      let originalTitleStyle = "";
 
       // Сохраняем оригинальные стили элемента
       const originalElStyle = el.style.cssText;
@@ -62,6 +66,45 @@ export function usePdfGeneration() {
       el.style.margin = "0";
       el.style.padding = "42px 42px 40px 42px";
       el.style.transform = "none";
+
+      // Принудительно устанавливаем десктопные размеры для QR-кода
+      qrCode = el.querySelector('img[alt="qr-code"]') as HTMLElement;
+      console.log("Найден QR-код:", qrCode);
+      if (qrCode) {
+        // Сохраняем computed стили, а не только inline
+        const computedStyle = window.getComputedStyle(qrCode);
+        originalQrStyle = `width: ${computedStyle.width}; height: ${computedStyle.height}; max-width: ${computedStyle.maxWidth}; max-height: ${computedStyle.maxHeight}; min-width: ${computedStyle.minWidth}; min-height: ${computedStyle.minHeight}; left: ${computedStyle.left}; bottom: ${computedStyle.bottom}; border-radius: ${computedStyle.borderRadius}; z-index: ${computedStyle.zIndex}; position: ${computedStyle.position}; object-fit: ${computedStyle.objectFit}; object-position: ${computedStyle.objectPosition};`;
+        console.log("Оригинальные стили QR-кода:", originalQrStyle);
+        qrCode.style.width = "155px";
+        qrCode.style.height = "155px";
+        qrCode.style.maxWidth = "155px";
+        qrCode.style.maxHeight = "155px";
+        qrCode.style.minWidth = "155px";
+        qrCode.style.minHeight = "155px";
+        qrCode.style.left = "42px";
+        qrCode.style.bottom = "61px";
+        qrCode.style.borderRadius = "8px";
+        qrCode.style.zIndex = "10";
+        qrCode.style.position = "absolute";
+        qrCode.style.objectFit = "contain";
+        qrCode.style.objectPosition = "center";
+        qrCode.style.objectFit = "contain";
+      } else {
+        console.log("QR-код не найден при установке стилей");
+      }
+
+      // Принудительно устанавливаем десктопные размеры для заголовка в индивидуальном макете
+      if (selectedTab.value === 1) {
+        titleElement = el.querySelector("h4") as HTMLElement;
+        if (titleElement) {
+          // Сохраняем computed стили, а не только inline
+          const computedStyle = window.getComputedStyle(titleElement);
+          originalTitleStyle = `font-size: ${computedStyle.fontSize}; max-width: ${computedStyle.maxWidth}; margin-top: ${computedStyle.marginTop};`;
+          titleElement.style.fontSize = "57px";
+          titleElement.style.maxWidth = "430px";
+          titleElement.style.marginTop = "0";
+        }
+      }
 
       // Для индивидуального макета обрабатываем градиентный текст
       if (selectedTab.value === 1) {
@@ -105,6 +148,30 @@ export function usePdfGeneration() {
       // Восстанавливаем оригинальные стили элемента
       el.style.cssText = originalElStyle;
 
+      // Восстанавливаем оригинальные стили QR-кода
+      const currentQrCode = el.querySelector(
+        'img[alt="qr-code"]'
+      ) as HTMLElement;
+      console.log("Ищем QR-код для восстановления:", currentQrCode);
+      console.log("Оригинальные стили для восстановления:", originalQrStyle);
+      if (currentQrCode && originalQrStyle) {
+        console.log("Восстанавливаем стили QR-кода:", originalQrStyle);
+        currentQrCode.style.cssText = originalQrStyle;
+      } else {
+        console.log("QR-код не найден или нет оригинальных стилей");
+      }
+
+      // Восстанавливаем оригинальные стили заголовка (только для индивидуального макета)
+      if (selectedTab.value === 1) {
+        const currentTitleElement = el.querySelector("h4") as HTMLElement;
+        if (currentTitleElement && originalTitleStyle) {
+          console.log("Восстанавливаем стили заголовка:", originalTitleStyle);
+          currentTitleElement.style.cssText = originalTitleStyle;
+        } else {
+          console.log("Заголовок не найден или нет оригинальных стилей");
+        }
+      }
+
       // Восстанавливаем градиентный текст
       if (selectedTab.value === 1) {
         gradientTexts.forEach((text: Element, index) => {
@@ -130,8 +197,19 @@ export function usePdfGeneration() {
       const pdfBlob = pdf.output("blob");
       const blobUrl = URL.createObjectURL(pdfBlob);
 
-      // Открываем PDF в новом окне
-      window.open(blobUrl, "_blank");
+      // Проверяем мобильное разрешение
+      if (isMobileDevice) {
+        // На мобильных устройствах скачиваем файл
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = "advertisement.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        // На десктопе открываем в новом окне
+        window.open(blobUrl, "_blank");
+      }
 
       markAsDownloaded(params.idLink);
       setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);

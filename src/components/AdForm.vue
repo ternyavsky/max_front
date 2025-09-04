@@ -33,6 +33,7 @@
               :error="frameObject.error"
               placeholder="Введите заголовок"
               maxlength="50"
+              data-field-index="0"
             />
           </div>
           <Select
@@ -47,12 +48,14 @@
             v-model="selectedRegion"
             placeholder="Выберите регион"
             :error="frameObject.error"
+            data-field-index="2"
           />
           <Input
             v-if="frameObject.num === 2"
             v-model="linkValue"
             placeholder="Введите ссылку на чат, канал или чат-бот"
             :error="frameObject.error"
+            data-field-index="1"
           />
           <SearchableInput
             v-if="frameObject.num === 4"
@@ -61,17 +64,18 @@
             placeholder="Введите ИНН или название организации"
             :debounce-ms="500"
             :error="frameObject.error"
+            data-field-index="3"
           />
         </div>
       </div>
 
       <!-- Предпросмотр для индивидуального макета -->
       <div
-        class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:static mobile:max-w-full mobile:h-[250px]"
+        class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:static mobile:max-w-full mobile:h-[250px] mobile:min-w-[280px]"
         v-if="props.selectedTab === 1"
       >
         <div
-          class="bg-[url('/assets/editable-frame.svg')] bg-cover w-full h-full rounded-[8px] flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between"
+          class="bg-[url('/assets/editable-frame.png')] bg-cover mobile:bg-contain bg-no-repeat bg-centerw-full h-full desktop:rounded-[8px] flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between"
         >
           <h4
             class="text-[27px] font-bold max-w-[205px] text-white leading-[100%] flex flex-col break-words text-preview mobile:max-w-[150px] mobile:text-[16px]"
@@ -88,26 +92,17 @@
               v-if="!splitText.firstLine && !splitText.restLines"
               class="text-white opacity-50"
             >
-              {{
-                props.selectedTab === 1 ? "Введите заголовок" : "Введите шаблон"
-              }}
+              {{ props.selectedTab === 1 ? "Введите текст" : "Введите шаблон" }}
             </span>
           </h4>
-          <div class="flex gap-[10px] items-center">
+          <!-- <div class="flex gap-[10px] items-center">
             <img
               :src="resData.pathImg || '/assets/preview.svg'"
               alt="Предпросмотр QR-кода"
               width="75"
               class="rounded"
             />
-            <div class="flex flex-col justify-center leading-none">
-              <p
-                class="text-white text-[20px] max-w-[40px] -mt-1 mobile:text-[14px]"
-              >
-                скачайте тут
-              </p>
-            </div>
-          </div>
+          </div> -->
         </div>
         <p class="text-tabs-inactive text-[14px] mx-auto">предпросмотр</p>
       </div>
@@ -118,8 +113,10 @@
         class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:max-w-full mobile:static mobile:h-[250px]"
       >
         <div
-          class="bg-cover w-full h-full rounded-[8px] flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between mobile:pt-[20px] mobile:pb-[10px]"
-          :style="{ backgroundImage: `url(${props.selectedTemplate.img})` }"
+          class="bg-contain bg-no-repeat bg-center w-full h-full rounded-[12px] overflow-hidden flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between mobile:pt-[20px] mobile:pb-[10px]"
+          :style="{
+            backgroundImage: `url(${props.selectedTemplate.img})`,
+          }"
         ></div>
         <p class="text-tabs-inactive text-[14px] mx-auto">предпросмотр</p>
       </div>
@@ -144,9 +141,10 @@ import SearchableSelect from "@/components/ui/SearchableSelect.vue";
 import SearchableInput from "@/components/ui/SearchableInput.vue";
 import Input from "@/components/ui/Input.vue";
 import Button from "@/components/ui/Button.vue";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useAdForm } from "@/composables/useAdForm";
 import { usePdfGeneration } from "@/composables/usePdfGeneration";
+import { useMobileScroll } from "@/composables/useMobileScroll";
 
 // Props
 interface Props {
@@ -163,6 +161,7 @@ const emit = defineEmits<{
   updateSelectedTemplate: [value: any];
   updateFrameObjects: [value: any];
   formSubmitted: [data: any];
+  formError: [error: any];
 }>();
 
 const tabs = [
@@ -183,6 +182,9 @@ const {
   handleOrganizationSelect,
   submitForm,
 } = useAdForm();
+
+// Используем composable для мобильного скролла
+const { isMobile, scrollToFirstError } = useMobileScroll();
 
 // Локальная функция для обработки смены вкладки
 const handleTabChange = (tab: number) => {
@@ -272,6 +274,7 @@ const clearErrors = () => {
 
 const validateForm = () => {
   let haveErrors = false;
+  const errorFields: number[] = [];
   const updatedFrameObjects = [...props.frameObjects];
 
   // Отладочная информация
@@ -295,6 +298,7 @@ const validateForm = () => {
         error: "Используйте нормативную лексику",
       };
       haveErrors = true;
+      errorFields.push(0);
     }
   }
 
@@ -305,6 +309,7 @@ const validateForm = () => {
       error: "Поле заполнено неверно. Используйте ссылку МАХ",
     };
     haveErrors = true;
+    errorFields.push(1);
   }
 
   // Валидация четвертого поля (организация)
@@ -314,11 +319,17 @@ const validateForm = () => {
       error: "Поле обязательно для заполнения",
     };
     haveErrors = true;
+    errorFields.push(3);
   }
 
   // Обновляем frameObjects с ошибками
   if (haveErrors) {
     emit("updateFrameObjects", updatedFrameObjects);
+
+    // Скроллим к первому полю с ошибкой на мобильных устройствах
+    if (isMobile.value) {
+      scrollToFirstError(errorFields);
+    }
   }
 
   return haveErrors;
@@ -361,14 +372,19 @@ const handleSubmit = async () => {
     return;
   }
 
-  const result = await submitForm();
-  if (result) {
-    // Сохраняем данные результата
-    resData.value.pathImg = result.pathImg;
-    resData.value.idLink = result.idLink;
+  try {
+    const result = await submitForm();
+    if (result) {
+      // Сохраняем данные результата
+      resData.value.pathImg = result.pathImg;
+      resData.value.idLink = result.idLink;
 
-    // Эмитим событие успешного создания
-    emit("formSubmitted", result);
+      // Эмитим событие успешного создания
+      emit("formSubmitted", result);
+    }
+  } catch (error) {
+    // Эмитим событие ошибки
+    emit("formError", error);
   }
 };
 </script>

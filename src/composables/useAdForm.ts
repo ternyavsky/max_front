@@ -165,6 +165,7 @@ export function useAdForm() {
   const isLoading = ref(false);
   const errorMessage = ref("");
   const successMessage = ref("");
+  const isFailedModalOpen = ref(false);
 
   // Вычисляемые свойства
   const selectedTemplateName = computed({
@@ -351,6 +352,7 @@ export function useAdForm() {
       console.log("Ответ от сервера:", response.data);
       return response.data;
     } catch (error) {
+      isFailedModalOpen.value = true;
       console.error("Ошибка при отправке данных:", error);
 
       if (axios.isAxiosError(error)) {
@@ -418,6 +420,7 @@ export function useAdForm() {
     errorMessage,
     successMessage,
     frameObjects,
+    isFailedModalOpen,
 
     // Вычисляемые свойства
     selectedTemplateName,

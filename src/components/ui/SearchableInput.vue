@@ -7,6 +7,10 @@ export interface Organization {
   address?: string;
 }
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const props = defineProps<{
   modelValue: string;
   placeholder?: string;
@@ -26,6 +30,8 @@ const organizations = ref<Organization[]>([]);
 const isLoading = ref(false);
 const selectedOrganization = ref<Organization | null>(null);
 const debounceTimer = ref<ReturnType<typeof setTimeout> | null>(null);
+const isSelecting = ref(false);
+const isUserSelected = ref(false);
 
 // Следим за изменениями modelValue извне
 watch(
@@ -43,10 +49,33 @@ watch(searchQuery, (newQuery) => {
 
   debounceTimer.value = setTimeout(() => {
     if (newQuery.length >= 1) {
+      // Проверяем, не является ли текущий запрос уже выбранной организацией
+      if (
+        isUserSelected.value &&
+        selectedOrganization.value &&
+        selectedOrganization.value.name === newQuery
+      ) {
+        // Если это уже выбранная организация, не ищем заново
+        isOpen.value = false;
+        return;
+      }
+
+      // Сбрасываем флаг выбора, если пользователь начал новый поиск
+      if (
+        isUserSelected.value &&
+        selectedOrganization.value &&
+        selectedOrganization.value.name !== newQuery
+      ) {
+        isUserSelected.value = false;
+        selectedOrganization.value = null;
+      }
+
       searchOrganizations(newQuery);
     } else {
       organizations.value = [];
       isOpen.value = false;
+      isUserSelected.value = false;
+      selectedOrganization.value = null;
     }
   }, props.debounceMs || 50);
 });
@@ -84,9 +113,19 @@ async function searchOrganizations(query: string) {
 
 // Обработка выбора организации
 function selectOrganization(organization: Organization) {
+  if (isSelecting.value) return; // Предотвращаем двойное срабатывание
+
+  isSelecting.value = true;
   selectedOrganization.value = organization;
   searchQuery.value = organization.name;
-  isOpen.value = false;
+  isUserSelected.value = true; // Отмечаем, что пользователь выбрал организацию
+
+  // Небольшая задержка перед закрытием, чтобы избежать конфликтов с handleClickOutside
+  setTimeout(() => {
+    isOpen.value = false;
+    isSelecting.value = false;
+  }, 100);
+
   emit("update:modelValue", organization.name);
   emit("select", organization);
 }
@@ -94,8 +133,11 @@ function selectOrganization(organization: Organization) {
 // Обработка клика вне компонента
 function handleClickOutside(event: Event) {
   const target = event.target as HTMLElement;
-  if (!target.closest(".searchable-input")) {
-    isOpen.value = false;
+  if (!target.closest(".searchable-input") && !isSelecting.value) {
+    // Небольшая задержка, чтобы дать время selectOrganization сработать
+    setTimeout(() => {
+      isOpen.value = false;
+    }, 50);
   }
 }
 
@@ -108,6 +150,16 @@ function handleKeydown(event: KeyboardEvent) {
 
 // Обработка фокуса
 function handleFocus() {
+  // Не открываем список, если уже выбрана организация и текст совпадает
+  if (
+    isUserSelected.value &&
+    selectedOrganization.value &&
+    selectedOrganization.value.name === searchQuery.value
+  ) {
+    isOpen.value = false;
+    return;
+  }
+
   if (organizations.value.length > 0) {
     isOpen.value = true;
   }
@@ -139,6 +191,7 @@ onUnmounted(() => {
         @focus="handleFocus"
         :placeholder="placeholder || 'Введите ИНН или название организации'"
         class="w-full px-4 py-3 pr-10 focus:outline-none h-[52px]"
+        v-bind="$attrs"
       />
       <div
         class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"

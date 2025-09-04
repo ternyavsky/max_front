@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref, defineProps, defineEmits, watch } from "vue";
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const props = defineProps<{
   modelValue: string;
   label?: string;
@@ -49,6 +53,7 @@ watch(
         :placeholder="placeholder"
         class="w-full h-[52px] focus:outline-none"
         :maxlength="maxlength"
+        v-bind="$attrs"
       />
       <img src="/assets/error.svg" alt="eye" v-if="error" />
     </div>
