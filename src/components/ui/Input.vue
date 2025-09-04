@@ -50,7 +50,7 @@ watch(
         class="w-full h-[52px] focus:outline-none"
         :maxlength="maxlength"
       />
-      <img src="/src/assets/error.svg" alt="eye" v-if="error" />
+      <img src="/assets/error.svg" alt="eye" v-if="error" />
     </div>
   </div>
   <div v-if="error" class="text-error text-[14px] flex justify-end">

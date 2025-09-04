@@ -3,12 +3,12 @@
     <!-- Экран формы -->
     <img
       class="absolute top-[-220px] left-[464px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
-      src="/src/assets/ad-right-bg.svg"
+      src="/assets/ad-right-bg.svg"
       alt="shape-1"
     />
     <img
       class="fixed top-[403px] left-[-169px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
-      src="/src/assets/ad-left-bg.png"
+      src="/assets/ad-left-bg.png"
       alt="shape-1"
     />
     <AdForm

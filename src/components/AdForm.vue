@@ -71,7 +71,7 @@
         v-if="props.selectedTab === 1"
       >
         <div
-          class="bg-[url('/src/assets/editable-frame.svg')] bg-cover w-full h-full rounded-[8px] flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between"
+          class="bg-[url('/assets/editable-frame.svg')] bg-cover w-full h-full rounded-[8px] flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between"
         >
           <h4
             class="text-[27px] font-bold max-w-[205px] text-white leading-[100%] flex flex-col break-words text-preview mobile:max-w-[150px] mobile:text-[16px]"
@@ -95,7 +95,7 @@
           </h4>
           <div class="flex gap-[10px] items-center">
             <img
-              :src="resData.pathImg || '/src/assets/preview.svg'"
+              :src="resData.pathImg || '/assets/preview.svg'"
               alt="Предпросмотр QR-кода"
               width="75"
               class="rounded"

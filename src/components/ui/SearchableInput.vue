@@ -149,12 +149,12 @@ onUnmounted(() => {
         ></div>
         <img
           v-else-if="!error"
-          src="/src/assets/select-icon.svg"
+          src="/assets/select-icon.svg"
           alt="search"
           class="w-3 h-3 transition-transform duration-200"
           :class="{ 'rotate-180': isOpen }"
         />
-        <img v-else src="/src/assets/error.svg" alt="error" class="w-4 h-4" />
+        <img v-else src="/assets/error.svg" alt="error" class="w-4 h-4" />
       </div>
     </div>
 

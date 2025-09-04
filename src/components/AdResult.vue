@@ -10,7 +10,7 @@
 
       <!-- Индивидуальный макет -->
       <div
-        class="bg-[url('/src/assets/editable-frame.png')] bg-cover rounded-[18px] flex flex-col px-[42px] pt-[72px] pb-[40px] justify-between w-[947px] h-[655px] mx-auto mobile:w-full mobile:h-[250px] mobile:px-[20px] mobile:pt-[20px] mobile:pb-[10px]"
+        class="bg-[url('/assets/editable-frame.png')] bg-cover rounded-[18px] flex flex-col px-[42px] pt-[72px] pb-[40px] justify-between w-[947px] h-[655px] mx-auto mobile:w-full mobile:h-[250px] mobile:px-[20px] mobile:pt-[20px] mobile:pb-[10px]"
         v-if="props.selectedTab === 1"
         id="pdf-block"
       >
@@ -37,7 +37,7 @@
         </h4>
         <div class="flex gap-[10px] items-center">
           <img
-            :src="resData.pathImg || '/src/assets/preview.svg'"
+            :src="resData.pathImg || '/assets/preview.svg'"
             crossorigin="anonymous"
             alt="Предпросмотр QR-кода"
             width="120"
@@ -62,7 +62,7 @@
         id="pdf-block"
       >
         <img
-          :src="resData.pathImg || '/src/assets/preview.svg'"
+          :src="resData.pathImg || '/assets/preview.svg'"
           alt="qr-code"
           class="absolute bottom-[51px] left-[42px] rounded-[12px] mobile:bottom-[22px] mobile:left-[12px] mobile:w-[65px] mobile:h-[65px]"
           width="155"

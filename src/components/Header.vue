@@ -18,7 +18,7 @@ const goToMain = () => {
     }"
   >
     <img
-      src="/src/assets/Max.png"
+      src="/assets/Max.png"
       alt="logo"
       @click="goToMain"
       class="cursor-pointer mobile:w-[80px] my-auto"

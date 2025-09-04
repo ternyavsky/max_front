@@ -55,7 +55,7 @@
               class="flex items-start h-full relative gap-8 mobile:flex-col mobile:items-center mobile:gap-2 flex-row"
             >
               <img
-                src="/src/assets/failed-teddy.svg"
+                src="/assets/failed-teddy.svg"
                 alt="failed"
                 class="w-[208px] mobile:w-[120px]"
               />
@@ -64,7 +64,7 @@
                 class="flex items-center gap-2 justify-start h-full mobile:flex-col mobile:items-center mobile:gap-3"
               >
                 <img
-                  src="/src/assets/failed.svg"
+                  src="/assets/failed.svg"
                   alt="failed"
                   class="w-fit h-fit absolute left-48 top-0 mobile:relative mobile:left-0 mobile:top-0"
                 />

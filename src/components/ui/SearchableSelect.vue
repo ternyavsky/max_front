@@ -99,7 +99,7 @@ onUnmounted(() => {
         class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
       >
         <img
-          src="/src/assets/select-icon.svg"
+          src="/assets/select-icon.svg"
           alt="dropdown"
           class="w-3 h-3 transition-transform duration-200"
           :class="{ 'rotate-180': isOpen }"

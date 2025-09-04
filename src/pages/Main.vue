@@ -14,22 +14,22 @@ const goToCreateAd = () => {
     <div class="flex mt-[68px] mobile:mt-[40px]">
       <img
         class="fixed top-[-158px] left-[472px] z-[-1] mobile:hidden"
-        src="/src/assets/main-right-bg.png"
+        src="/assets/main-right-bg.png"
         alt="shape-1"
       />
       <img
         class="fixed top-[666px] left-[-259px] z-[-1] rotate-[-60deg] mobile:hidden"
-        src="/src/assets/main-left-bg.png"
+        src="/assets/main-left-bg.png"
         alt="shape-1"
       />
       <img
         class="fixed top-[42px] right-0 z-[-1] desktop:hidden"
-        src="/src/assets/main-right-mobile.png"
+        src="/assets/main-right-mobile.png"
         alt="shape-1"
       />
       <img
         class="fixed top-[652px] left-[-206px] z-[-1] desktop:hidden"
-        src="/src/assets/main-left-mobile.png"
+        src="/assets/main-left-mobile.png"
         alt="shape-1"
       />
       <div class="flex flex-col w-full">
@@ -58,7 +58,7 @@ const goToCreateAd = () => {
         >
       </div>
       <img
-        src="/src/assets/main-image.svg"
+        src="/assets/main-image.svg"
         alt="main"
         class="mobile:hidden z-10"
       />
