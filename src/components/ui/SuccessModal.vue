@@ -27,7 +27,7 @@
         >
           <div
             v-if="isOpen"
-            class="relative bg-white rounded-2xl p-8 max-w-[900px] w-full mx-4 shadow-2xl border border-blue-200 max-h-[350px] h-fit mobile:max-w-[90%] mobile:max-h-[calc(100vh-140px)] mobile:p-6"
+            class="relative bg-white rounded-2xl max-w-[900px] w-full mx-4 shadow-2xl border border-blue-200 max-h-[350px] h-fit mobile:max-w-[90%] mobile:max-h-[calc(100vh-140px)] mobile:p-6"
             @click.stop
           >
             <!-- Кнопка закрытия -->

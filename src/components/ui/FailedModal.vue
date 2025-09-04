@@ -27,7 +27,7 @@
         >
           <div
             v-if="isOpen"
-            class="relative bg-white rounded-2xl p-8 max-w-[836px] w-full mx-4 shadow-2xl border border-blue-200 max-h-[387px] h-full mobile:max-w-[90%] mobile:max-h-[calc(100vh-140px)] mobile:p-6"
+            class="relative bg-white rounded-2xl p-8 pt-15 max-w-[836px] w-full mx-4 shadow-2xl border border-blue-200 max-h-[387px] h-full mobile:max-w-[90%] mobile:max-h-[calc(100vh-140px)] mobile:p-6 mobile:h-fit"
             @click.stop
           >
             <!-- Кнопка закрытия -->
@@ -52,7 +52,7 @@
 
             <!-- Контент модалки -->
             <div
-              class="flex items-start h-full relative gap-8 mobile:flex-col mobile:items-center mobile:gap-2 flex-row"
+              class="flex items-start h-full mobile:h-fit relative gap-8 mobile:flex-col mobile:items-center mobile:gap-2 flex-row"
             >
               <img
                 src="/assets/failed-teddy.svg"

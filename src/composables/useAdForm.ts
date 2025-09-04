@@ -158,7 +158,7 @@ export function useAdForm() {
   // Состояние
   const selectedTab = ref(0);
   const selectedTemplate = ref(availableTemplates[0]);
-  const selectedRegion = ref("Московская область");
+  const selectedRegion = ref("");
   const linkValue = ref("");
   const institutionValue = ref("");
   const selectedOrganization = ref<Organization | null>(null);
@@ -205,7 +205,7 @@ export function useAdForm() {
         name: region,
         label: region,
       })),
-      selectActive: selectedRegion.value,
+      selectActive: () => selectedRegion.value,
       error: "",
     },
     {
@@ -271,7 +271,6 @@ export function useAdForm() {
         haveErrors = true;
       }
     }
-
     // Валидация ссылки
     if (
       !linkValue.value ||
@@ -284,7 +283,12 @@ export function useAdForm() {
     }
 
     // Валидация региона
+    console.log(
+      "Валидация региона - selectedRegion.value:",
+      selectedRegion.value
+    );
     if (!selectedRegion.value || selectedRegion.value.trim() === "") {
+      console.log("Регион не выбран, устанавливаем ошибку");
       frameObjects.value[2].error = "Выберите регион";
       haveErrors = true;
     }
@@ -352,20 +356,10 @@ export function useAdForm() {
       console.log("Ответ от сервера:", response.data);
       return response.data;
     } catch (error) {
-      isFailedModalOpen.value = true;
       console.error("Ошибка при отправке данных:", error);
 
-      if (axios.isAxiosError(error)) {
-        errorMessage.value =
-          error.response?.data?.message ||
-          "Произошла ошибка при создании объявления";
-      } else {
-        errorMessage.value = "Произошла неизвестная ошибка";
-      }
-
-      setTimeout(() => {
-        errorMessage.value = "";
-      }, 5000);
+      // Выбрасываем ошибку для обработки в AdForm.vue
+      throw error;
     } finally {
       isLoading.value = false;
     }

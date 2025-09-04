@@ -13,6 +13,7 @@ const props = defineProps<{
   modelValue: string;
   placeholder?: string;
   class?: string;
+  error?: string;
 }>();
 
 const emit = defineEmits(["update:modelValue"]);
@@ -70,7 +71,8 @@ onUnmounted(() => {
   <div class="custom-select relative" :class="class">
     <!-- Поле отображения выбранного значения -->
     <div
-      class="bg-white border border-[#E8ECF5] cursor-pointer h-[52px]"
+      class="bg-white border border-[#E8ECF5] cursor-pointer h-[52px] flex items-center justify-between"
+      :class="error ? 'border-error' : ''"
       @click="isOpen = !isOpen"
     >
       <div class="w-full px-4 py-3 pr-10 flex items-center">
@@ -85,11 +87,13 @@ onUnmounted(() => {
         class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
       >
         <img
+          v-if="!error"
           src="/assets/select-icon.svg"
           alt="dropdown"
           class="w-3 h-3 transition-transform duration-200"
           :class="{ 'rotate-180': isOpen }"
         />
+        <img v-else src="/assets/error.svg" alt="error" class="w-4 h-4" />
       </div>
     </div>
 
@@ -109,6 +113,11 @@ onUnmounted(() => {
       >
         {{ option.label }}
       </div>
+    </div>
+
+    <!-- Сообщение об ошибке -->
+    <div v-if="error" class="text-error text-[14px] flex justify-end mt-1">
+      {{ error }}
     </div>
   </div>
 </template>

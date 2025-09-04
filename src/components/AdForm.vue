@@ -71,11 +71,11 @@
 
       <!-- Предпросмотр для индивидуального макета -->
       <div
-        class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:static mobile:max-w-full mobile:h-[250px] mobile:min-w-[280px]"
+        class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:static mobile:h-[250px] mobile:w-[280px]"
         v-if="props.selectedTab === 1"
       >
         <div
-          class="bg-[url('/assets/editable-frame.png')] bg-cover mobile:bg-contain bg-no-repeat bg-centerw-full h-full desktop:rounded-[8px] flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between"
+          class="bg-[url('/assets/editable-frame.png')] bg-cover mobile:bg-contain bg-no-repeat bg-centerw-full h-full desktop:rounded-[8px] flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between mobile:relative"
         >
           <h4
             class="text-[27px] font-bold max-w-[205px] text-white leading-[100%] flex flex-col break-words text-preview mobile:max-w-[150px] mobile:text-[16px]"
@@ -95,14 +95,13 @@
               {{ props.selectedTab === 1 ? "Введите текст" : "Введите шаблон" }}
             </span>
           </h4>
-          <!-- <div class="flex gap-[10px] items-center">
+          <div class="flex gap-[10px] items-center">
             <img
               :src="resData.pathImg || '/assets/preview.svg'"
               alt="Предпросмотр QR-кода"
-              width="75"
-              class="rounded"
+              class="rounded w-[75px] h-[75px] absolute bottom-[44px] left-[22px] mobile:w-[45px] mobile:h-[45px] mobile:left-[12px] mobile:bottom-[53px]"
             />
-          </div> -->
+          </div>
         </div>
         <p class="text-tabs-inactive text-[14px] mx-auto">предпросмотр</p>
       </div>
@@ -113,11 +112,17 @@
         class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:max-w-full mobile:static mobile:h-[250px]"
       >
         <div
-          class="bg-contain bg-no-repeat bg-center w-full h-full rounded-[12px] overflow-hidden flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between mobile:pt-[20px] mobile:pb-[10px]"
+          class="bg-contain bg-no-repeat bg-center w-full h-full rounded-[12px] overflow-hidden flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between mobile:pt-[20px] mobile:pb-[10px] mobile:relative"
           :style="{
             backgroundImage: `url(${props.selectedTemplate.img})`,
           }"
-        ></div>
+        >
+          <img
+            :src="resData.pathImg || '/assets/preview.svg'"
+            alt="Предпросмотр QR-кода"
+            class="rounded w-[75px] h-[75px] absolute bottom-[49px] left-[22px] mobile:w-[45px] mobile:h-[45px] mobile:bottom-[33px] mobile:left-[12px]"
+          />
+        </div>
         <p class="text-tabs-inactive text-[14px] mx-auto">предпросмотр</p>
       </div>
 
@@ -289,7 +294,15 @@ const validateForm = () => {
   if (props.selectedTab === 1) {
     if (
       !props.frameObjects[0].inputValue ||
-      props.frameObjects[0].inputValue.trim() === "" ||
+      props.frameObjects[0].inputValue.trim() === ""
+    ) {
+      updatedFrameObjects[0] = {
+        ...updatedFrameObjects[0],
+        error: "Поле обязательно для заполнения",
+      };
+      haveErrors = true;
+      errorFields.push(0);
+    } else if (
       SWEAR_REGEX.test(props.frameObjects[0].inputValue) ||
       SENSITIVE_REGEX.test(props.frameObjects[0].inputValue)
     ) {
@@ -310,6 +323,16 @@ const validateForm = () => {
     };
     haveErrors = true;
     errorFields.push(1);
+  }
+
+  // Валидация третьего поля (регион)
+  if (!selectedRegion.value || selectedRegion.value.trim() === "") {
+    updatedFrameObjects[2] = {
+      ...updatedFrameObjects[2],
+      error: "Выберите регион",
+    };
+    haveErrors = true;
+    errorFields.push(2);
   }
 
   // Валидация четвертого поля (организация)
@@ -343,6 +366,20 @@ watch(
       const updatedFrameObjects = [...props.frameObjects];
       updatedFrameObjects[1] = {
         ...updatedFrameObjects[1],
+        error: "",
+      };
+      emit("updateFrameObjects", updatedFrameObjects);
+    }
+  }
+);
+
+watch(
+  () => selectedRegion.value,
+  () => {
+    if (props.frameObjects[2]?.error) {
+      const updatedFrameObjects = [...props.frameObjects];
+      updatedFrameObjects[2] = {
+        ...updatedFrameObjects[2],
         error: "",
       };
       emit("updateFrameObjects", updatedFrameObjects);

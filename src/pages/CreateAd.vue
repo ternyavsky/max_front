@@ -3,8 +3,13 @@
     <!-- Экран формы -->
     <div class="max-w-[1440px] mx-auto">
       <img
+        src="/assets/bg.svg"
+        alt="bg-mobile"
+        class="mobile:block hidden desktop:hidden absolute top-0"
+      />
+      <img
         class="absolute top-[-220px] left-[464px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
-        src="/assets/ad-right-bg.svg"
+        src="/assets/bg.svg"
         alt="shape-1"
       />
       <img
