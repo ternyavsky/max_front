@@ -141,7 +141,7 @@ import SearchableSelect from "@/components/ui/SearchableSelect.vue";
 import SearchableInput from "@/components/ui/SearchableInput.vue";
 import Input from "@/components/ui/Input.vue";
 import Button from "@/components/ui/Button.vue";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useAdForm } from "@/composables/useAdForm";
 import { usePdfGeneration } from "@/composables/usePdfGeneration";
 import { useMobileScroll } from "@/composables/useMobileScroll";
