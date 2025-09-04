@@ -2,7 +2,7 @@
 import { computed } from "vue";
 
 interface Props {
-  variant?: "primary" | "outline";
+  variant?: "primary" | "outline" | "close";
   class?: string;
 }
 
@@ -21,8 +21,9 @@ const buttonClasses = computed(() => {
   ];
 
   const variantClasses = {
+    close: "close-btn-gradient text-white",
     primary: "btn-gradient text-white",
-    outline: "bg-white text-btn-gradient border border-btn-gradient",
+    outline: "bg-white border-[##191D86] text-[#191D86] border-1",
   };
 
   return [...baseClasses, variantClasses[props.variant], props.class];

@@ -7,6 +7,8 @@ const props = defineProps<{
   type?: string;
   placeholder?: string;
   id?: string;
+  error?: string;
+  maxlength?: string;
 }>();
 
 const emit = defineEmits<{
@@ -18,10 +20,17 @@ const inputValue = ref(props.modelValue);
 watch(inputValue, (newValue) => {
   emit("update:modelValue", newValue);
 });
+
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    inputValue.value = newValue;
+  }
+);
 </script>
 
 <template>
-  <div class="custom-input bg-white">
+  <div class="bg-white">
     <label
       v-if="label"
       :for="id"
@@ -29,18 +38,24 @@ watch(inputValue, (newValue) => {
     >
       {{ label }}
     </label>
-    <input
-      :id="id"
-      :type="type"
-      v-model="inputValue"
-      :placeholder="placeholder"
-      class="mt-1 block w-full px-3 py-2 border border-[#E8ECF5] focus:outline-none h-[52px]"
-    />
+    <div
+      class="mt-1 w-full px-3 py-2 border border-[#E8ECF5] focus:outline-none h-[52px] flex items-center justify-between"
+      :class="error ? 'border-error' : ''"
+    >
+      <input
+        :id="id"
+        :type="type"
+        v-model="inputValue"
+        :placeholder="placeholder"
+        class="w-full h-[52px] focus:outline-none"
+        :maxlength="maxlength"
+      />
+      <img src="/src/assets/error.svg" alt="eye" v-if="error" />
+    </div>
+  </div>
+  <div v-if="error" class="text-error text-[14px] flex justify-end">
+    {{ error }}
   </div>
 </template>
 
-<style scoped>
-.custom-input {
-  margin-bottom: 1rem;
-}
-</style>
+<style scoped></style>

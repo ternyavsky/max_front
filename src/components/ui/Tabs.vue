@@ -34,7 +34,7 @@ function selectTab(idx: number) {
 
 <template>
   <div>
-    <div class="flex gap-[13px]">
+    <div class="flex gap-[13px] mobile:flex-col">
       <button
         v-for="(tab, idx) in tabs"
         :key="tab.name"

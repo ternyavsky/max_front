@@ -9,6 +9,7 @@ export default {
 
       screens: {
         mobile: { max: "400px" },
+        desktop: { min: "401px" },
       },
       colors: {
         primary: {

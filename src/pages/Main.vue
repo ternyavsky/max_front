@@ -12,8 +12,28 @@ const goToCreateAd = () => {
 <template>
   <DefaultLayout>
     <div class="flex mt-[68px] mobile:mt-[40px]">
+      <img
+        class="fixed top-[-158px] left-[472px] z-[-1] mobile:hidden"
+        src="/src/assets/main-right-bg.png"
+        alt="shape-1"
+      />
+      <img
+        class="fixed top-[666px] left-[-259px] z-[-1] rotate-[-60deg] mobile:hidden"
+        src="/src/assets/main-left-bg.png"
+        alt="shape-1"
+      />
+      <img
+        class="fixed top-[42px] right-0 z-[-1] desktop:hidden"
+        src="/src/assets/main-right-mobile.png"
+        alt="shape-1"
+      />
+      <img
+        class="fixed top-[652px] left-[-206px] z-[-1] desktop:hidden"
+        src="/src/assets/main-left-mobile.png"
+        alt="shape-1"
+      />
       <div class="flex flex-col w-full">
-        <div class="font-medium text-[62px] leading-[100%]">
+        <div class="font-medium text-[62px] leading-[100%] mobile:text-[36px]">
           <h1 class="text-gradient">Генератор объявлений</h1>
           <h1 class="text-white">для продвижения</h1>
           <h1 class="text-white">мессенджера MAX</h1>
@@ -37,7 +57,11 @@ const goToCreateAd = () => {
           >Создать объявление</Button
         >
       </div>
-      <img src="/src/assets/main-image.svg" alt="main" class="mobile:hidden" />
+      <img
+        src="/src/assets/main-image.svg"
+        alt="main"
+        class="mobile:hidden z-10"
+      />
     </div>
   </DefaultLayout>
 </template>

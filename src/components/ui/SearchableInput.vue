@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 
 export interface Organization {
   inn: string;
@@ -12,6 +12,7 @@ const props = defineProps<{
   placeholder?: string;
   class?: string;
   debounceMs?: number;
+  error?: string;
 }>();
 
 const emit = defineEmits<{
@@ -81,43 +82,6 @@ async function searchOrganizations(query: string) {
   return;
 }
 
-// Моковые данные для демонстрации
-function getMockOrganizations(query: string): Organization[] {
-  const mockData = [
-    {
-      inn: "7707083893",
-      name: "ПАО Сбербанк",
-      address: "г. Москва, ул. Вавилова, д. 19",
-    },
-    {
-      inn: "7702070139",
-      name: "ПАО Газпром",
-      address: "г. Москва, ул. Наметкина, д. 16",
-    },
-    {
-      inn: "7707083894",
-      name: "ООО Ромашка",
-      address: "г. Москва, ул. Ленина, д. 1",
-    },
-    {
-      inn: "7707083895",
-      name: "ИП Иванов И.И.",
-      address: "г. Москва, ул. Пушкина, д. 10",
-    },
-    {
-      inn: "7707083896",
-      name: "ООО Технологии",
-      address: "г. Санкт-Петербург, Невский пр., д. 28",
-    },
-  ];
-
-  return mockData.filter(
-    (org) =>
-      org.name.toLowerCase().includes(query.toLowerCase()) ||
-      org.inn.includes(query)
-  );
-}
-
 // Обработка выбора организации
 function selectOrganization(organization: Organization) {
   selectedOrganization.value = organization;
@@ -166,12 +130,15 @@ onUnmounted(() => {
 <template>
   <div class="searchable-input relative" :class="class">
     <!-- Поле ввода -->
-    <div class="bg-white border border-[#E8ECF5]">
+    <div
+      class="bg-white border border-[#E8ECF5] h-[52px] flex items-center justify-between"
+      :class="error ? 'border-error' : ''"
+    >
       <input
         v-model="searchQuery"
         @focus="handleFocus"
         :placeholder="placeholder || 'Введите ИНН или название организации'"
-        class="w-full px-4 py-3 pr-10 focus:outline-none"
+        class="w-full px-4 py-3 pr-10 focus:outline-none h-[52px]"
       />
       <div
         class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
@@ -181,12 +148,13 @@ onUnmounted(() => {
           class="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"
         ></div>
         <img
-          v-else
+          v-else-if="!error"
           src="/src/assets/select-icon.svg"
           alt="search"
           class="w-3 h-3 transition-transform duration-200"
           :class="{ 'rotate-180': isOpen }"
         />
+        <img v-else src="/src/assets/error.svg" alt="error" class="w-4 h-4" />
       </div>
     </div>
 
@@ -234,6 +202,11 @@ onUnmounted(() => {
     >
       <div class="px-4 py-3 text-gray-500">Организации не найдены</div>
     </div>
+  </div>
+
+  <!-- Сообщение об ошибке -->
+  <div v-if="error" class="text-error text-[14px] flex justify-end">
+    {{ error }}
   </div>
 </template>
 

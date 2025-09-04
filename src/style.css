@@ -23,6 +23,7 @@
   --color-bg-frame: #fafcff;
   --color-sign-primary: #272727;
   --color-step: #0026ff;
+  --color-error: #ff6c6c;
   --color-btn-outline-text: #1a1d85;
   --color-tabs-inactive: #7c8a9a;
 }
@@ -33,6 +34,9 @@
   }
   .btn-gradient {
     @apply bg-gradient-to-r from-[#1D29BF] to-[#2D085F];
+  }
+  .close-btn-gradient {
+    @apply bg-gradient-to-r from-[#161F8A] to-[#2D085F];
   }
   .font-normal {
     font-weight: 400 !important;
