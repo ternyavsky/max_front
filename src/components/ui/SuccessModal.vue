@@ -66,7 +66,7 @@
                 <img
                   src="/assets/success.svg"
                   alt="success"
-                  class="w-16 h-16 absolute left-64 top-2 mobile:relative mobile:left-0 mobile:top-0 mobile:w-12 mobile:h-12"
+                  class="w-12 h-12 absolute left-64 top-5 mobile:relative mobile:left-0 mobile:top-0 mobile:w-8 mobile:h-8"
                 />
                 <div
                   class="flex flex-col justify-between desktop:h-[250px] mobile:items-center mobile:gap-4"

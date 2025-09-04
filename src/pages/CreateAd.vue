@@ -71,7 +71,7 @@ const { resData } = usePdfGeneration();
 const currentScreen = ref<"form" | "result">("form");
 
 // Состояние модалки
-const isSuccessModalOpen = ref(true);
+const isSuccessModalOpen = ref(false);
 
 // Функция для возврата к форме
 const goBackToForm = () => {
