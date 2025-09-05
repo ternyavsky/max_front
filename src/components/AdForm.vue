@@ -109,19 +109,21 @@
       <!-- Предпросмотр для готовых шаблонов -->
       <div
         v-if="props.selectedTab !== 1"
-        class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:max-w-full mobile:static mobile:h-[250px]"
+        class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:static mobile:h-[250px] mobile:w-[280px]"
       >
         <div
-          class="bg-contain bg-no-repeat bg-center w-full h-full rounded-[12px] overflow-hidden flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between mobile:pt-[20px] mobile:pb-[10px] mobile:relative"
+          class="bg-contain bg-no-repeat bg-center w-full h-full rounded-[12px] flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between mobile:relative"
           :style="{
             backgroundImage: `url(${props.selectedTemplate.img})`,
           }"
         >
-          <img
-            :src="resData.pathImg || '/assets/preview.svg'"
-            alt="Предпросмотр QR-кода"
-            class="rounded w-[75px] h-[75px] absolute bottom-[49px] left-[22px] mobile:w-[45px] mobile:h-[45px] mobile:bottom-[33px] mobile:left-[12px]"
-          />
+          <div class="flex gap-[10px] items-center">
+            <img
+              :src="resData.pathImg || '/assets/preview.svg'"
+              alt="Предпросмотр QR-кода"
+              class="rounded w-[75px] h-[75px] absolute bottom-[44px] left-[22px] mobile:w-[45px] mobile:h-[45px] mobile:left-[12px] mobile:bottom-[40px]"
+            />
+          </div>
         </div>
         <p class="text-tabs-inactive text-[14px] mx-auto">предпросмотр</p>
       </div>
@@ -198,6 +200,8 @@ const handleTabChange = (tab: number) => {
   if (tab === 1) {
     emit("updateSelectedTemplate", availableTemplates[0]);
   }
+  // Очищаем все ошибки при смене вкладки
+  clearErrors();
 };
 
 // Локальная функция для обработки изменения шаблона
@@ -315,14 +319,20 @@ const validateForm = () => {
     }
   }
 
-  // Валидация второго поля (ссылка)
-  if (!linkValue.value || !linkValue.value.includes("https://max.ru")) {
-    updatedFrameObjects[1] = {
-      ...updatedFrameObjects[1],
-      error: "Поле заполнено неверно. Используйте ссылку МАХ",
-    };
-    haveErrors = true;
-    errorFields.push(1);
+  // Валидация второго поля (ссылка) - только для индивидуального макета
+  if (props.selectedTab === 1) {
+    if (
+      !linkValue.value ||
+      linkValue.value.trim() === "" ||
+      !linkValue.value.includes("https://max.ru")
+    ) {
+      updatedFrameObjects[1] = {
+        ...updatedFrameObjects[1],
+        error: "Поле заполнено неверно. Используйте ссылку МАХ",
+      };
+      haveErrors = true;
+      errorFields.push(1);
+    }
   }
 
   // Валидация третьего поля (регион)

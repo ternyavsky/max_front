@@ -66,7 +66,7 @@
                 <img
                   src="/assets/failed.svg"
                   alt="failed"
-                  class="w-fit h-fit absolute left-48 top-0 mobile:relative mobile:left-0 mobile:top-0"
+                  class="w-fit h-fit absolute left-48 top-1 mobile:relative mobile:left-0 mobile:top-0"
                 />
                 <div
                   class="flex flex-col justify-between h-full mobile:items-center mobile:gap-4"

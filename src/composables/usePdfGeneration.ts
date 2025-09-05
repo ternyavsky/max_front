@@ -11,7 +11,10 @@ export function usePdfGeneration() {
     idLink: "",
   });
 
-  const downloadImage = async (params: { value: number; idLink?: string }) => {
+  const downloadImage = async (params: {
+    value: number;
+    idLink?: string;
+  }): Promise<void> => {
     const selectedTab = { value: params.value };
     try {
       const el = document.getElementById("pdf-block");
@@ -197,22 +200,17 @@ export function usePdfGeneration() {
       const pdfBlob = pdf.output("blob");
       const blobUrl = URL.createObjectURL(pdfBlob);
 
-      // Проверяем мобильное разрешение
-      if (isMobileDevice) {
-        // На мобильных устройствах скачиваем файл
-        const link = document.createElement("a");
-        link.href = blobUrl;
-        link.download = "advertisement.pdf";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else {
-        // На десктопе открываем в новом окне
-        window.open(blobUrl, "_blank");
-      }
+      // Всегда скачиваем файл (и на мобильных, и на десктопе)
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = "advertisement.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       markAsDownloaded(params.idLink);
       setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+      return; // Успешное завершение
     } catch (error) {
       console.error("Ошибка при создании PDF:", error);
 
@@ -226,6 +224,8 @@ export function usePdfGeneration() {
         originalViewport?.setAttribute("content", originalContent);
         window.scrollTo(0, scrollY);
       }
+
+      throw error; // Пробрасываем ошибку
     }
   };
 

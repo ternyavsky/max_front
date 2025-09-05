@@ -128,8 +128,17 @@ console.log("AdResult props:", {
 const { downloadImage, handleImageError } = usePdfGeneration();
 
 // Обработчики
-const handleDownload = () => {
-  downloadImage({ value: props.selectedTab, idLink: props.resData.idLink });
+const handleDownload = async () => {
+  try {
+    await downloadImage({
+      value: props.selectedTab,
+      idLink: props.resData.idLink,
+    });
+    // Эмитим событие успешного скачивания
+    emit("downloadSuccess");
+  } catch (error) {
+    console.error("Ошибка при скачивании PDF:", error);
+  }
 };
 
 const handleGoBack = () => {
@@ -139,5 +148,6 @@ const handleGoBack = () => {
 // Эмиты
 const emit = defineEmits<{
   goBack: [];
+  downloadSuccess: [];
 }>();
 </script>

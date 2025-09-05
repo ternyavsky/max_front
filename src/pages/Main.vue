@@ -13,17 +13,17 @@ const goToCreateAd = () => {
   <DefaultLayout>
     <div class="flex mt-[68px] mobile:mt-[40px] max-w-[1440px] mx-auto">
       <img
-        class="fixed top-[-158px] left-[472px] z-[-1] mobile:hidden"
+        class="fixed top-[-158px] right-0 z-[-1] mobile:hidden object-fill"
         src="/assets/main-right-bg.png"
         alt="shape-1"
       />
       <img
-        class="fixed top-[666px] left-[-259px] z-[-1] rotate-[-60deg] mobile:hidden"
+        class="fixed top-[666px] left-[-259px] z-[2] rotate-[-60deg] mobile:hidden"
         src="/assets/main-left-bg.png"
         alt="shape-1"
       />
       <img
-        class="fixed top-[42px] right-0 z-[-1] desktop:hidden"
+        class="fixed top-[42px] z-[-1] desktop:hidden w-screen left-0"
         src="/assets/main-right-mobile.png"
         alt="shape-1"
       />
@@ -46,8 +46,8 @@ const goToCreateAd = () => {
         >
           <li class="font-light">Скачивайте готовые объявления.</li>
           <li class="max-w-[604px]">
-            Создавайте который приведет пол канал, который приведет пользователя
-            в ваш групповой чат, чат/бот или канал.
+            Создавайте свои с уникальным QR кодом, который приведет пользователя
+            в ваш групповой чат, чат/бот или канал
           </li>
         </ul>
         <Button

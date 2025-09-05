@@ -5,10 +5,10 @@
       <img
         src="/assets/bg.svg"
         alt="bg-mobile"
-        class="mobile:block hidden desktop:hidden absolute top-0"
+        class="mobile:block hidden desktop:hidden absolute top-0 z-[-1] w-screen"
       />
       <img
-        class="absolute top-[-220px] left-[464px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
+        class="fixed top-[-220px] left-[464px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
         src="/assets/bg.svg"
         alt="shape-1"
       />
@@ -42,6 +42,7 @@
         :frameObjects="frameObjects"
         :resData="resData"
         @goBack="goBackToForm"
+        @downloadSuccess="handleDownloadSuccess"
       />
 
       <!-- Модалки -->
@@ -99,12 +100,16 @@ const handleFormSubmitted = (data: any) => {
   resData.value.pathImg = data.pathImg;
   resData.value.idLink = data.idLink;
   currentScreen.value = "result";
-  isSuccessModalOpen.value = true;
 };
 
 // Обработчик ошибки формы
 const handleFormError = (error: any) => {
   console.error("Ошибка формы:", error);
   isFailedModalOpen.value = true;
+};
+
+// Обработчик успешного скачивания
+const handleDownloadSuccess = () => {
+  isSuccessModalOpen.value = true;
 };
 </script>

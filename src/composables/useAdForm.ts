@@ -271,15 +271,17 @@ export function useAdForm() {
         haveErrors = true;
       }
     }
-    // Валидация ссылки
-    if (
-      !linkValue.value ||
-      linkValue.value.trim() === "" ||
-      !linkValue.value.includes("https://max.ru")
-    ) {
-      frameObjects.value[1].error =
-        "Поле заполнено неверно. Используйте ссылку МАХ";
-      haveErrors = true;
+    // Валидация ссылки - только для индивидуального макета
+    if (selectedTab.value === 1) {
+      if (
+        !linkValue.value ||
+        linkValue.value.trim() === "" ||
+        !linkValue.value.includes("https://max.ru")
+      ) {
+        frameObjects.value[1].error =
+          "Поле заполнено неверно. Используйте ссылку МАХ";
+        haveErrors = true;
+      }
     }
 
     // Валидация региона
@@ -309,6 +311,12 @@ export function useAdForm() {
   };
 
   const collectFormData = () => {
+    // Для готовых шаблонов автоматически подставляем https://max.ru если ссылка пустая
+    const link =
+      selectedTab.value === 0
+        ? linkValue.value || "https://max.ru"
+        : linkValue.value || "";
+
     return {
       templateType: selectedTab.value === 0 ? selectedTemplate.value.id : 0,
       title:
@@ -316,7 +324,7 @@ export function useAdForm() {
           ? selectedTemplate.value?.text || ""
           : frameObjects.value[0].inputValue || "",
       region: selectedRegion.value || "",
-      link: linkValue.value || "",
+      link: link,
       organization: selectedOrganization.value || { name: "", inn: "" },
     };
   };
@@ -337,7 +345,7 @@ export function useAdForm() {
       console.log("Отправляем данные:", formData);
 
       const response = await axios.post(
-        "https://test333.na4u.ru/api/qr/create",
+        "https://test333.na4u.ru/api/qr/created",
         {
           title: formData.title,
           link: formData.link,
