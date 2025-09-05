@@ -345,7 +345,7 @@ export function useAdForm() {
       console.log("Отправляем данные:", formData);
 
       const response = await axios.post(
-        "https://test333.na4u.ru/api/qr/created",
+        "https://test333.na4u.ru/api/qr/create",
         {
           title: formData.title,
           link: formData.link,
