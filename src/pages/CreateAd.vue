@@ -73,7 +73,7 @@ const {
 const { resData } = usePdfGeneration();
 
 // Состояние экранов
-const currentScreen = ref<"form" | "result">("form");
+const currentScreen = ref<"form" | "result">("result");
 
 // Состояние модалки
 const isSuccessModalOpen = ref(false);

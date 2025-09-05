@@ -46,7 +46,7 @@
             v-if="frameObject.num === 3"
             :options="availableRegions"
             v-model="selectedRegion"
-            placeholder="Выберите регион"
+            placeholder="Введите название региона"
             :error="frameObject.error"
             data-field-index="2"
           />
