@@ -23,7 +23,7 @@ const goToCreateAd = () => {
         alt="shape-1"
       />
       <img
-        class="fixed top-[42px] z-[-1] desktop:hidden w-screen left-0"
+        class="fixed top-0 z-[-1] desktop:hidden w-screen left-0 h-screen"
         src="/assets/main-right-mobile.png"
         alt="shape-1"
       />
@@ -52,7 +52,7 @@ const goToCreateAd = () => {
         </ul>
         <Button
           variant="primary"
-          class="max-w-[287px] w-full font-normal mt-[50px] mobile:mt-[30px] mobile:max-w-full"
+          class="max-w-[287px] w-full font-normal mt-[50px] mobile:mt-[30px] mobile:max-w-[500px]"
           @click="goToCreateAd"
           >Создать объявление</Button
         >
