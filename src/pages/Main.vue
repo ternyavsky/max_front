@@ -13,12 +13,12 @@ const goToCreateAd = () => {
   <DefaultLayout>
     <div class="flex mt-[68px] mobile:mt-[40px] max-w-[1440px] mx-auto">
       <img
-        class="fixed top-[-158px] right-0 z-[-1] mobile:hidden object-fill"
+        class="fixed top-0 z-[-1] mobile:hidden object-cover w-screen"
         src="/assets/main-right-bg.png"
         alt="shape-1"
       />
       <img
-        class="fixed top-[666px] left-[-259px] z-[2] rotate-[-60deg] mobile:hidden"
+        class="fixed z-[-1] mobile:hidden h-screen w-screen object-fit left-0 top-0"
         src="/assets/main-left-bg.png"
         alt="shape-1"
       />

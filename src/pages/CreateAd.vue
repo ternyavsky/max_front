@@ -8,12 +8,12 @@
         class="mobile:block hidden desktop:hidden absolute top-0 z-[-1] w-screen"
       />
       <img
-        class="fixed top-[-220px] left-[464px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
-        src="/assets/bg.svg"
+        class="fixed top-[-150px] z-[-1] mobile:hidden w-[987px] right-0 h-screen"
+        src="/assets/ad-right-bg.svg"
         alt="shape-1"
       />
       <img
-        class="fixed top-[403px] left-[-169px] z-[-1] mobile:hidden rotate-45 w-[987px] h-[878px]"
+        class="fixed top-[403px] left-[-169px] z-[-1] mobile:hidden rotate-12 w-[987px] h-screen my-auto"
         src="/assets/ad-left-bg.png"
         alt="shape-1"
       />
