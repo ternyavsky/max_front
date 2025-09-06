@@ -203,7 +203,7 @@ export function usePdfGeneration() {
       // Всегда скачиваем файл (и на мобильных, и на десктопе)
       const link = document.createElement("a");
       link.href = blobUrl;
-      link.download = "advertisement.pdf";
+      link.download = "advertisement-max.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

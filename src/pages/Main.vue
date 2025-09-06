@@ -57,7 +57,11 @@ const goToCreateAd = () => {
           >Создать объявление</Button
         >
       </div>
-      <img src="/assets/main-image.svg" alt="main" class="mobile:hidden z-10" />
+      <img
+        src="/assets/main-image.svg"
+        alt="main"
+        class="lg:block z-10 hidden"
+      />
     </div>
   </DefaultLayout>
 </template>

@@ -39,64 +39,59 @@ function splitTextIntoLines(text: string) {
     return { firstLine: text.trim(), restLines: "" };
   }
 
-  const updateMaxWidth = () => (window.innerWidth < 401 ? 150 : 430);
+  // Получаем максимальную ширину и размер шрифта
+  const updateMaxWidth = () => (window.innerWidth < 401 ? 110 : 430);
   const getFontSize = () => (window.innerWidth < 401 ? "20px" : "57px");
   let maxWidth = updateMaxWidth();
   let fontSize = getFontSize();
+
+  // Добавляем обработчик изменения размера окна
   window.addEventListener("resize", () => {
     maxWidth = updateMaxWidth();
     fontSize = getFontSize();
   });
-  console.log("maxWidth:", maxWidth);
-  let currentText = "";
-  let firstLineWords = 0;
 
-  for (let i = 0; i < words.length; i++) {
-    const testText = currentText + (currentText ? " " : "") + words[i];
-    const textWidth = measureTextWidth(testText, fontSize);
+  const firstWord = words[0];
+  const firstWordWidth = measureTextWidth(firstWord, fontSize);
 
-    // Если текст помещается в строку
-    if (textWidth <= maxWidth) {
-      currentText = testText;
-      firstLineWords = i + 1;
-    } else {
-      // Если текст не помещается, останавливаемся
-      break;
-    }
-  }
+  console.log("splitTextIntoLines - firstWord:", firstWord);
+  console.log("splitTextIntoLines - firstWordWidth:", firstWordWidth);
+  console.log("splitTextIntoLines - maxWidth:", maxWidth);
 
-  // Если ни одно слово не поместилось, берем хотя бы первое
-  if (firstLineWords === 0) {
-    firstLineWords = 1;
-  }
-
-  // Дополнительная проверка: если первое слово слишком длинное, обрезаем его
-  if (firstLineWords === 1) {
-    const firstWord = words[0];
-    if (measureTextWidth(firstWord, fontSize) > maxWidth) {
-      // Обрезаем слово до максимальной ширины
-      let truncatedWord = "";
-      for (let i = 0; i < firstWord.length; i++) {
-        const testChar = truncatedWord + firstWord[i];
-        if (measureTextWidth(testChar, fontSize) <= maxWidth) {
-          truncatedWord = testChar;
-        } else {
-          break;
-        }
+  // Если первое слово помещается в контейнер, используем его целиком
+  if (firstWordWidth <= maxWidth) {
+    console.log("Первое слово помещается, используем его целиком");
+    return {
+      firstLine: firstWord,
+      restLines: words.slice(1).join(" "),
+    };
+  } else {
+    console.log("Первое слово слишком длинное, обрезаем его");
+    // Если первое слово слишком длинное, обрезаем его
+    let truncatedWord = "";
+    for (let i = 0; i < firstWord.length; i++) {
+      const testChar = truncatedWord + firstWord[i];
+      if (measureTextWidth(testChar, fontSize) <= maxWidth) {
+        truncatedWord = testChar;
+      } else {
+        break;
       }
-      return {
-        firstLine: truncatedWord,
-        restLines:
-          firstWord.slice(truncatedWord.length) +
-          (words.slice(1).length > 0 ? " " + words.slice(1).join(" ") : ""),
-      };
     }
+
+    console.log("splitTextIntoLines - truncatedWord:", truncatedWord);
+    console.log(
+      "splitTextIntoLines - remaining text:",
+      firstWord.slice(truncatedWord.length) +
+        (words.slice(1).length > 0 ? " " + words.slice(1).join(" ") : "")
+    );
+
+    return {
+      firstLine: truncatedWord,
+      restLines:
+        firstWord.slice(truncatedWord.length) +
+        (words.slice(1).length > 0 ? " " + words.slice(1).join(" ") : ""),
+    };
   }
-
-  const firstLine = words.slice(0, firstLineWords).join(" ");
-  const restLines = words.slice(firstLineWords).join(" ");
-
-  return { firstLine, restLines };
 }
 
 export function useTextProcessing(
@@ -127,7 +122,12 @@ export function useTextProcessing(
   // Вычисляемое свойство для разделенного текста
   const splitText = computed(() => {
     console.log("splitText computed called");
+    console.log("selectedTab.value:", selectedTab.value);
+    console.log("currentTemplateText.value:", currentTemplateText.value);
+
+    // Всегда используем splitTextIntoLines (теперь она работает только с первым словом)
     const result = splitTextIntoLines(currentTemplateText.value);
+
     // Отладочная информация
     if (currentTemplateText.value) {
       console.log("Исходный текст:", currentTemplateText.value);
@@ -148,5 +148,5 @@ export function useTextProcessing(
   };
 }
 
-// Экспортируем функцию для использования в других компонентах
+// Экспортируем функции для использования в других компонентах
 export { splitTextIntoLines };

@@ -71,14 +71,14 @@
 
       <!-- Предпросмотр для индивидуального макета -->
       <div
-        class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:static mobile:h-[250px] mobile:w-[280px]"
+        class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:static mobile:h-[250px] mobile:w-[280px] mobile:mx-auto"
         v-if="props.selectedTab === 1"
       >
         <div
           class="bg-[url('/assets/editable-frame.png')] bg-cover mobile:bg-contain bg-no-repeat bg-centerw-full h-full desktop:rounded-[8px] flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between mobile:relative"
         >
           <h4
-            class="text-[27px] font-bold max-w-[205px] text-white leading-[100%] flex flex-col break-words text-preview mobile:max-w-[150px] mobile:text-[16px]"
+            class="text-[27px] font-bold max-w-[205px] text-white leading-[100%] flex flex-col break-words text-preview mobile:max-w-[130px] mobile:text-[16px]"
           >
             <span
               v-if="splitText.firstLine"
@@ -109,10 +109,10 @@
       <!-- Предпросмотр для готовых шаблонов -->
       <div
         v-if="props.selectedTab !== 1"
-        class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:static mobile:h-[250px] mobile:w-[280px]"
+        class="flex flex-col absolute top-[122px] right-[74px] max-w-[450px] h-[330px] w-full mobile:static mobile:h-[250px] mobile:w-[280px] mobile:mx-auto"
       >
         <div
-          class="bg-contain bg-no-repeat bg-center w-full h-full rounded-[12px] flex flex-col px-[20px] pt-[34px] pb-[19px] justify-between mobile:relative"
+          class="bg-contain bg-no-repeat bg-center w-full h-full rounded-[12px] flex flex-col px-[20px] justify-between mobile:relative"
           :style="{
             backgroundImage: `url(${props.selectedTemplate.img})`,
           }"
@@ -360,9 +360,7 @@ const validateForm = () => {
     emit("updateFrameObjects", updatedFrameObjects);
 
     // Скроллим к первому полю с ошибкой на мобильных устройствах
-    if (isMobile.value) {
-      scrollToFirstError(errorFields);
-    }
+    scrollToFirstError(errorFields);
   }
 
   return haveErrors;
