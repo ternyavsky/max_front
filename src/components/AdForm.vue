@@ -191,7 +191,7 @@ const {
 } = useAdForm();
 
 // Используем composable для мобильного скролла
-const { isMobile, scrollToFirstError } = useMobileScroll();
+const { scrollToFirstError } = useMobileScroll();
 
 // Локальная функция для обработки смены вкладки
 const handleTabChange = (tab: number) => {
